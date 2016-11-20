@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class MarkovNode {
     private Word name;
     private double probability = 0.0;
-    private ArrayList<MarkovNode> nonZeroNodes;
+    private ArrayList<Relation> relations;
     
     public MarkovNode(Word name)
     {
@@ -22,19 +22,19 @@ public class MarkovNode {
         this.probability++;
     }
     
+    /** Sums occurences of each word.
+     Then, divides by the sum to normalize the probabilities. */
     public void Normalize()
     {
-        // Sum occurences of each word
         double sum = 0.0;
-        for(int i = 0; i < this.nonZeroNodes.size(); i++)
+        for(int i = 0; i < this.relations.size(); i++)
         {
-            sum += this.nonZeroNodes.get(i).GetProbability();
+            sum += this.relations.get(i).GetProbability();
         }
         
-        // Divide by the sum to normalize the probabilities
-        for(int i = 0; i < this.nonZeroNodes.size(); i++)
+        for(int i = 0; i < this.relations.size(); i++)
         {
-            this.nonZeroNodes.get(i).UpdateProbability(sum);
+            this.relations.get(i).Normalize(sum);
         }
     }
     
@@ -43,9 +43,32 @@ public class MarkovNode {
         this.probability++;
     }
     
+    /** If the relation already exists, then its probability is incremented.
+     Otherwise, a new relation is added. */
     public void AddRelation(Word relatedWord)
     {
-        //Todo: Finish method
+        Relation exists = GetRelation(relatedWord);
+        if(exists == null)
+        {
+            this.relations.add(new Relation(relatedWord.GetWord()));
+        }
+        else
+        {
+            exists.IncrementFrequency();
+        }
+    }
+    
+    private Relation GetRelation(Word relatedWord)
+    {
+        for(int i = 0; i<this.relations.size(); i++)
+        {
+            Relation currentRelation = this.relations.get(i);
+            if(currentRelation.GetName().equals(relatedWord.GetWord()))
+            {
+                return currentRelation;
+            }
+        }
+        return null;
     }
     
     public String GetName()

@@ -19,9 +19,9 @@ public class Generator implements IGenerator {
         this.chain = chain;
     }
     
+    /** TODO: Actually generate haiku  */
     public Haiku GenerateHaiku()
     {
-        //TODO: Actually generate haiku
         return new Haiku();
     }
 }

@@ -5,31 +5,58 @@
  */
 package haikugenerator;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  *
  * @author MaxM
  */
 public class MarkovChain {
-    private HashMap<String, MarkovNode> chain;
+    private ArrayList<MarkovNode> chain;
     
     public MarkovChain()
     {
-        this.chain = new HashMap<String, MarkovNode>();
+        this.chain = new ArrayList<MarkovNode>();
+    }
+    
+    public boolean Contains(String name)
+    {
+        for(int i = 0; i < this.chain.size(); i++)
+        {
+            MarkovNode currentNode = this.chain.get(i);
+            if(currentNode.GetName().equals(name))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /** Returns null if it does not contain the given word. */
+    public MarkovNode GetNode(String name)
+    {
+        for(int i = 0; i < this.chain.size(); i++)
+        {
+            MarkovNode currentNode = this.chain.get(i);
+            if(currentNode.GetName().equals(name))
+            {
+                return currentNode;
+            }
+        }
+        return null;
     }
     
     public void UpdateChain(Word word, Word relatedWord)
     {
-        //TODO: Finish Method
-        /*if(!this.chain.containsKey(word.GetWord()))
+        if(!this.Contains(word.GetWord()))
         {
             MarkovNode newNode = new MarkovNode(word);
-            this.chain.put(word.GetWord(), new MarkovNode(word));
+            newNode.AddRelation(relatedWord);
+            this.chain.add(newNode);
         }
         else
         {
-            this.chain.get(word.GetWord()).IncrementFrequency();
-        }*/
+            this.GetNode(word.GetWord()).AddRelation(relatedWord);
+        }
     }
 }
