@@ -24,7 +24,7 @@ public class MarkovChain {
         for(int i = 0; i < this.chain.size(); i++)
         {
             MarkovNode currentNode = this.chain.get(i);
-            if(currentNode.GetName().equals(name))
+            if((currentNode.GetName()).equals(name))
             {
                 return true;
             }

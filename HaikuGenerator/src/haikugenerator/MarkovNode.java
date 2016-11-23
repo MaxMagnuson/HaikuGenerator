@@ -13,13 +13,12 @@ import java.util.ArrayList;
  */
 public class MarkovNode {
     private Word name;
-    private double probability = 0.0;
     private ArrayList<Relation> relations;
     
     public MarkovNode(Word name)
     {
+        this.relations = new ArrayList<Relation>();
         this.name = name;
-        this.probability++;
     }
     
     /** Sums occurences of each word.
@@ -36,11 +35,6 @@ public class MarkovNode {
         {
             this.relations.get(i).Normalize(sum);
         }
-    }
-    
-    public void IncrementFrequency()
-    {
-        this.probability++;
     }
     
     /** If the relation already exists, then its probability is incremented.
@@ -71,19 +65,13 @@ public class MarkovNode {
         return null;
     }
     
+    public int Relations()
+    {
+        return this.relations.size();
+    }
+    
     public String GetName()
     {
         return this.name.GetWord();
     }
-    
-    public double GetProbability()
-    {
-        return this.probability;
-    }
-    
-    private void UpdateProbability(double sum)
-    {
-        this.probability /= sum;
-    }
-    
 }
