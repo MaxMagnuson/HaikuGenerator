@@ -6,6 +6,7 @@
 package haikugenerator;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -14,11 +15,13 @@ import java.util.ArrayList;
 public class MarkovNode {
     private Word name;
     private ArrayList<Relation> relations;
+    private Random rand;
     
     public MarkovNode(Word name)
     {
         this.relations = new ArrayList<Relation>();
         this.name = name;
+        this.rand = new Random();
     }
     
     /** Sums occurences of each word.
@@ -63,6 +66,24 @@ public class MarkovNode {
             }
         }
         return null;
+    }
+    
+    /** Randomly chooses a related word and returns it as a string. */
+    public String NextWord()
+    {
+        double probability = this.rand.nextDouble();
+        double total = 0;
+        Relation current = null;
+        for(int i = 0; i<this.relations.size(); i++)
+        {
+            current = this.relations.get(i);
+            total += current.GetProbability();
+            if(total >= probability)
+            {
+                return current.GetName();
+            }
+        }
+        return current.GetName();
     }
     
     public int Relations()

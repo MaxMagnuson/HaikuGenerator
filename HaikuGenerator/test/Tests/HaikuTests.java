@@ -3,22 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package haikugenerator;
+package Tests;
 
+import haikugenerator.Haiku;
+import haikugenerator.Word;
 import java.util.ArrayList;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  *
  * @author MaxM
  */
-public class HaikuGenerator {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        // Note: Feel Free to edit this with whatever test stuff
+public class HaikuTests {
+    
+    @Test
+    public void CanAddWords()
+    {
+        Word word = new Word("Unicorn");
+        Haiku haiku = new Haiku();
+        
+        haiku.AddWord(word);
+        
+        assertNotNull(haiku);
+        assertFalse(haiku.Full());
+    }
+    
+    @Test
+    public void FullHaiku()
+    {
         ArrayList<Word> words = new ArrayList<>();
         words.add(new Word("unicorns", 3));
         words.add(new Word("of", 1));
@@ -42,7 +57,6 @@ public class HaikuGenerator {
             haiku.AddWord(words.get(i));
         }
         
-        System.out.println(haiku.toString());
+        assertTrue(haiku.Full());
     }
-    
 }

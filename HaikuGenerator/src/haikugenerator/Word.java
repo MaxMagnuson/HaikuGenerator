@@ -21,6 +21,13 @@ public class Word {
         // want to test different methods. I'm unsure on this.
     }
     
+    public Word(String word, int syllables)
+    {
+        this.word = word;
+        this.syllables = syllables;
+        //TODO: this will probably be deprecated
+    }
+    
     public String GetWord()
     {
         return this.word;
@@ -29,5 +36,13 @@ public class Word {
     public int GetSyllables()
     {
         return this.syllables;
+    }
+    
+    /**
+     This will probably be deprecated.
+     */
+    public void SetSyllables(int syllables)
+    {
+        this.syllables = syllables;
     }
 }
