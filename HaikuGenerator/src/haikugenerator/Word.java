@@ -49,44 +49,49 @@ public class Word {
      * http://www.phonicsontheweb.com/syllables.php */
     private void determineSyllables(String word)
     {
-        //Todo: Add logic for tripthongs
-        int syllables = 0;
-        if(this.vowels.contains(word.charAt(0)))
-        {
-            syllables++;
-        }
-        for(int i = 1; i < word.length()-1; i++)
-        {
-            char currentChar = word.charAt(i);
-            if(this.vowels.contains(currentChar))
+        if(word.length() < 3)
+            this.syllables = 1;
+        else{
+
+            //Todo: Add logic for tripthongs
+            int syllables = 0;
+            if(this.vowels.contains(word.charAt(0)))
             {
-                char previous = word.charAt(i-1);
-                if(!this.vowels.contains(previous) || currentChar == 'o')
+                syllables++;
+            }
+            for(int i = 1; i < word.length()-1; i++)
+            {
+                char currentChar = word.charAt(i);
+                if(this.vowels.contains(currentChar))
+                {
+                    char previous = word.charAt(i-1);
+                    if(!this.vowels.contains(previous) || currentChar == 'o')
+                    {
+                        syllables++;
+                    }
+                }
+            }
+            char lastChar = word.charAt(word.length()-1);
+            if(lastChar=='e')
+            {
+                if(word.charAt(word.length()-2)=='l')
+                {
+                    syllables++;
+                }
+                else if(!this.vowels.contains(word.charAt(word.length()-3)) && !this.vowels.contains(word.charAt(word.length()-2)))
                 {
                     syllables++;
                 }
             }
-        }
-        char lastChar = word.charAt(word.length()-1);
-        if(lastChar=='e')
-        {
-            if(word.charAt(word.length()-2)=='l')
+            else if(lastChar=='y')
             {
-                syllables++;
+                if(!this.vowels.contains(word.charAt(word.length()-2)))
+                {
+                    syllables++;
+                }
             }
-            else if(!this.vowels.contains(word.charAt(word.length()-3)) && !this.vowels.contains(word.charAt(word.length()-2)))
-            {
-                syllables++;
-            }
+            this.syllables = syllables;
         }
-        else if(lastChar=='y')
-        {
-            if(!this.vowels.contains(word.charAt(word.length()-2)))
-            {
-                syllables++;
-            }
-        }
-        this.syllables = syllables;
     }
     
     /**

@@ -95,4 +95,16 @@ public class MarkovNode {
     {
         return this.name.GetWord();
     }
+    
+    public void PrintNode(){
+        System.out.println("Word: " + name.GetWord());
+        if(relations.isEmpty())
+            System.out.println("No Relations");
+        else
+            System.out.println("Relations: ");
+        for(int i = 0; i < relations.size(); i++){
+            System.out.println("\t"+relations.get(i).GetName()+"   "+relations.get(i).GetProbability());
+        }
+        System.out.println();
+    }
 }

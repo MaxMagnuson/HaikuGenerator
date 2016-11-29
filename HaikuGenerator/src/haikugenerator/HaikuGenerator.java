@@ -43,6 +43,9 @@ public class HaikuGenerator {
         }
         
         System.out.println(haiku.toString());
+        Parser p = new Parser();
+        MarkovChain mc = p.ParseFile("/home/zbookey/Documents/AI/HaikuGenerator/SampleInput.txt");
+        mc.PrintChain();
     }
     
 }

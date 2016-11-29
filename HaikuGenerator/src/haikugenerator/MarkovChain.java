@@ -59,4 +59,22 @@ public class MarkovChain {
             this.GetNode(word.GetWord()).AddRelation(relatedWord);
         }
     }
+    
+    public void UpdateChain(Word word){
+        if(!this.Contains(word.GetWord())){
+            MarkovNode newNode = new MarkovNode(word);
+            this.chain.add(newNode);
+        }
+    }
+    
+    public void Normalize(){
+        for(int i= 0; i < chain.size(); i++)
+            chain.get(i).Normalize();
+    }
+    
+    public void PrintChain(){
+        for(int i = 0; i < chain.size(); i++){
+            chain.get(i).PrintNode();
+        }
+    }
 }
