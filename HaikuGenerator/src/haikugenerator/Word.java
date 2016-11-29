@@ -49,7 +49,6 @@ public class Word {
      * http://www.phonicsontheweb.com/syllables.php */
     private void determineSyllables(String word)
     {
-        
         //Todo: Add logic for tripthongs
         int syllables = 0;
         if(this.vowels.contains(word.charAt(0)))
@@ -61,7 +60,8 @@ public class Word {
             char currentChar = word.charAt(i);
             if(this.vowels.contains(currentChar))
             {
-                if(!this.vowels.contains(word.charAt(i-1)))
+                char previous = word.charAt(i-1);
+                if(!this.vowels.contains(previous) || currentChar == 'o')
                 {
                     syllables++;
                 }
@@ -74,7 +74,7 @@ public class Word {
             {
                 syllables++;
             }
-            else if(!this.vowels.contains(word.charAt(word.length()-3)))
+            else if(!this.vowels.contains(word.charAt(word.length()-3)) && !this.vowels.contains(word.charAt(word.length()-2)))
             {
                 syllables++;
             }
