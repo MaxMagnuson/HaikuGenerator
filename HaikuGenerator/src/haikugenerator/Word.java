@@ -19,7 +19,7 @@ public class Word {
     
     public Word(String word)
     {
-        this.vowels = Arrays.asList('a', 'e', 'i', 'o', 'u');
+        this.vowels = Arrays.asList('a', 'e', 'i', 'o', 'u', 'y');
         this.word = word;
         this.determineSyllables(this.word.toLowerCase());
         //TODO: determine syllable
@@ -29,7 +29,7 @@ public class Word {
     
     public Word(String word, int syllables)
     {
-        this.vowels = Arrays.asList('a', 'e', 'i', 'o', 'u');
+        this.vowels = Arrays.asList('a', 'e', 'i', 'o', 'u', 'y');
         this.word = word;
         this.syllables = syllables;
         //TODO: this will probably be deprecated

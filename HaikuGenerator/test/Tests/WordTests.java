@@ -61,4 +61,10 @@ public class WordTests {
         Word word = new Word("geology");
         assertEquals(4, word.GetSyllables());
     }
+    
+    @Test
+    public void CorrectSyllablesEight(){
+        Word word = new Word("syllable");
+        assertEquals(3, word.GetSyllables());
+    }
 }
