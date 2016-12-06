@@ -25,6 +25,13 @@ public class Haiku {
         this.lines.add(new FiveLine());
     }
     
+    public Haiku(FiveLine line1, SevenLine line2, FiveLine line3){
+        this.lines = new ArrayList<>();
+        this.lines.add(line1);
+        this.lines.add(line2);
+        this.lines.add(line3);
+    }
+    
     // Checks to see if a new word can be added
     // If it can't, it returns false
     public boolean AddWord(Word newWord)
