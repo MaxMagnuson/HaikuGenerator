@@ -10,16 +10,16 @@ package haikugenerator;
  * @author MaxM
  */
 public class Relation {
-    private String name;
+    private Word name;
     private Double probability;
     
-    public Relation(String name)
+    public Relation(Word name)
     {
         this.name = name;
         this.probability = 1.0;
     }
     
-    public String GetName()
+    public Word GetName()
     {
         return this.name;
     }

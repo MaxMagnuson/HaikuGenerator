@@ -47,7 +47,7 @@ public class MarkovNode {
         Relation exists = GetRelation(relatedWord);
         if(exists == null)
         {
-            this.relations.add(new Relation(relatedWord.GetWord()));
+            this.relations.add(new Relation(relatedWord));
         }
         else
         {
@@ -60,7 +60,7 @@ public class MarkovNode {
         for(int i = 0; i<this.relations.size(); i++)
         {
             Relation currentRelation = this.relations.get(i);
-            if(currentRelation.GetName().equals(relatedWord.GetWord()))
+            if(currentRelation.GetName().GetWord().equals(relatedWord.GetWord()))
             {
                 return currentRelation;
             }
@@ -69,7 +69,7 @@ public class MarkovNode {
     }
     
     /** Randomly chooses a related word and returns it as a string. */
-    public String NextWord()
+    public Word NextWord()
     {
         double probability = this.rand.nextDouble();
         double total = 0;
@@ -91,9 +91,9 @@ public class MarkovNode {
         return this.relations.size();
     }
     
-    public String GetName()
+    public Word GetName()
     {
-        return this.name.GetWord();
+        return this.name;
     }
     
     public void PrintNode(){

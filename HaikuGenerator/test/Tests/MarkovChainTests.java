@@ -36,7 +36,7 @@ public class MarkovChainTests {
        chain.UpdateChain(pink, unicorn);
        MarkovNode pinkNode = chain.GetNode(pink.GetWord());
        
-       assertEquals(pink.GetWord(), pinkNode.GetName());
+       assertEquals(pink.GetWord(), pinkNode.GetName().GetWord());
     }
     
     @Test

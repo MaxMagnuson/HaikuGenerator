@@ -6,6 +6,7 @@
 package haikugenerator;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -13,10 +14,12 @@ import java.util.ArrayList;
  */
 public class MarkovChain {
     private ArrayList<MarkovNode> chain;
+    private Random random;
     
     public MarkovChain()
     {
         this.chain = new ArrayList<MarkovNode>();
+        this.random = new Random();
     }
     
     public boolean Contains(String name)
@@ -24,7 +27,7 @@ public class MarkovChain {
         for(int i = 0; i < this.chain.size(); i++)
         {
             MarkovNode currentNode = this.chain.get(i);
-            if((currentNode.GetName()).equals(name))
+            if((currentNode.GetName().GetWord()).equals(name))
             {
                 return true;
             }
@@ -38,12 +41,19 @@ public class MarkovChain {
         for(int i = 0; i < this.chain.size(); i++)
         {
             MarkovNode currentNode = this.chain.get(i);
-            if(currentNode.GetName().equals(name))
+            if(currentNode.GetName().GetWord().equals(name))
             {
                 return currentNode;
             }
         }
         return null;
+    }
+    
+    public MarkovNode GetRandomNode()
+    {
+        double randDouble = this.random.nextDouble();
+        int index = (int)Math.floor(randDouble/(1.0/chain.size())) - 1;
+        return this.chain.get(index);
     }
     
     public void UpdateChain(Word word, Word relatedWord)
