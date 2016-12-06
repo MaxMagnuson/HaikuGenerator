@@ -21,11 +21,20 @@ public class NaiveGenerator implements IGenerator {
     @Override
     public Haiku GenerateHaiku() {
         Haiku haiku = new Haiku();
-        MarkovNode root = this.chain.GetRandomNode();
+        MarkovNode currentNode = this.chain.GetRandomNode();
         
         while(!haiku.Full())
         {
-            haiku.AddWord(root.GetName());
+            haiku.AddWord(currentNode.GetName());
+            Word nextWord = currentNode.NextWord();
+            if(nextWord == null)
+            {
+                currentNode = this.chain.GetRandomNode();
+            }
+            else
+            {
+                currentNode = this.chain.GetNode(nextWord.GetWord());
+            }
         }
         
         return haiku;
