@@ -83,6 +83,10 @@ public class MarkovNode {
                 return current.GetName();
             }
         }
+        if(current == null)
+        {
+            return null;
+        }
         return current.GetName();
     }
     
