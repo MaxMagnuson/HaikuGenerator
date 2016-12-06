@@ -35,7 +35,8 @@ public class DFSB_Generator implements IGenerator{
         while(current.GetSyllables()!=5){
             if(!current.VisitedAll()){ // We haven't tried everything so generate a new child.
                 current.CreateNewNode();
-                current = current.GetChild();
+                if(current.GetChild().GetSyllables() <= 5)
+                    current = current.GetChild();
             } else if(current == root){ // We've visited all the possible candidates and we have no parent.
                 return GenerateFiveLine(); // Best to start over with a new random start node.
             } else{
@@ -57,7 +58,8 @@ public class DFSB_Generator implements IGenerator{
         while(current.GetSyllables()!=7){
             if(!current.VisitedAll()){ // We haven't tried everything so generate a new child.
                 current.CreateNewNode();
-                current = current.GetChild();
+                if(current.GetChild().GetSyllables() <= 7)
+                    current = current.GetChild();
             } else if(current == root){ // We've visited all the possible candidates and we have no parent.
                 return GenerateSevenLine(); // Best to start over with a new random start node.
             } else{
