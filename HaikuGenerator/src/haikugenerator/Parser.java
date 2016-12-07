@@ -19,12 +19,18 @@ import java.util.Scanner;
 public class Parser implements IParser {
     
     public List<String> badPunc;
+    public List<String> badWords;
     
     public Parser(){
         this.badPunc = Arrays.asList("\\.", "\\,", "\\?", "\\!", "\"", "\\:", "\\;");
+        this.badWords = Arrays.asList("the", "and", "for", "or", "is", "it", "in");
     }
     
-    public MarkovChain ParseFile(String FileName)
+    public MarkovChain ParseFile(String FileName){
+        return ParseFile(FileName, false);
+    }
+    
+    public MarkovChain ParseFile(String FileName, boolean useBadList)
     {   
         File f = new File(FileName);
         Scanner scan;
@@ -48,9 +54,11 @@ public class Parser implements IParser {
                     token = token.replaceAll(badPunc.get(i), "");
                 }
                 Word tokenWord = new Word(token);
-                if(prevWord != null)
-                    chain.UpdateChain(prevWord, tokenWord);
-                prevWord = tokenWord;
+                if(!badWords.contains(tokenWord.GetWord()) && useBadList){ // If this is a bad word ignore it.
+                    if(prevWord != null)
+                        chain.UpdateChain(prevWord, tokenWord);
+                    prevWord = tokenWord;
+                }
                 //token = token.replaceAll("\\.", "");
                 
             }
