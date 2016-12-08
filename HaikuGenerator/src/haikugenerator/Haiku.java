@@ -25,7 +25,7 @@ public class Haiku {
         this.lines.add(new FiveLine());
     }
     
-    public Haiku(FiveLine line1, SevenLine line2, FiveLine line3){
+    public Haiku(IHaikuLine line1, IHaikuLine line2, IHaikuLine line3){
         this.lines = new ArrayList<>();
         this.lines.add(line1);
         this.lines.add(line2);

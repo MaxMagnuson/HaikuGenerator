@@ -6,7 +6,6 @@
 package haikugenerator;
 
 import haikugenerator.Interface.IGenerator;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,14 +22,14 @@ public class HaikuGenerator {
         // Note: Feel Free to edit this with whatever test stuff
         
         Parser p = new Parser();
-        MarkovChain mc = p.ParseFile(path);
+        MarkovChain mc = p.ParseFile(path, true);
         //mc.PrintChain();
         
-        IGenerator naiveGen = new NaiveGenerator(mc);
+        IGenerator shortWalkGen = new ShortRandomWalk_Generator(mc);
         for(int i = 0; i < 10; i++)
         {
             System.out.println("Running iteration " + i);
-            System.out.println(naiveGen.GenerateHaiku().toString());
+            System.out.println(shortWalkGen.GenerateHaiku().toString());
         }
     }
     

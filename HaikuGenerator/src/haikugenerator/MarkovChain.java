@@ -52,7 +52,15 @@ public class MarkovChain {
     public MarkovNode GetRandomNode()
     {
         double randDouble = this.random.nextDouble();
-        int index = (int)Math.floor(randDouble/(1.0/chain.size())) - 1;
+        int index;
+        if(randDouble == 0.0)
+        {
+            index = 0;
+        }
+        else
+        {
+            index = (int)Math.ceil(randDouble * (double)chain.size()) - 1;
+        }
         return this.chain.get(index);
     }
     

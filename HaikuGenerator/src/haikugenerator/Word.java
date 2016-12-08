@@ -52,8 +52,6 @@ public class Word {
         if(word.length() < 3)
             this.syllables = 1;
         else{
-
-            //Todo: Add logic for tripthongs
             int syllables = 0;
             if(this.vowels.contains(word.charAt(0)))
             {
@@ -65,30 +63,42 @@ public class Word {
                 if(this.vowels.contains(currentChar))
                 {
                     char previous = word.charAt(i-1);
-                    if(!this.vowels.contains(previous) || currentChar == 'o')
+                    if(!this.vowels.contains(previous) || (currentChar == 'o' && previous != 'o'))
                     {
                         syllables++;
                     }
                 }
             }
             char lastChar = word.charAt(word.length()-1);
+            char previousChar = word.charAt(word.length()-2);
             if(lastChar=='e')
             {
-                if(word.charAt(word.length()-2)=='l')
+                
+                if(previousChar=='l')
                 {
                     syllables++;
                 }
-                else if(!this.vowels.contains(word.charAt(word.length()-3)) && !this.vowels.contains(word.charAt(word.length()-2)))
+                else if(!this.vowels.contains(word.charAt(word.length()-3)) && !this.vowels.contains(previousChar))
                 {
                     syllables++;
                 }
             }
             else if(lastChar=='y')
             {
-                if(!this.vowels.contains(word.charAt(word.length()-2)))
+                if(!this.vowels.contains(previousChar))
                 {
                     syllables++;
                 }
+            }
+            else if(this.vowels.contains(lastChar) && !this.vowels.contains(previousChar))
+            {
+                syllables++;
+            }
+            
+            // "ing" case
+            if(lastChar == 'g' && previousChar == 'n' && word.charAt(word.length()-3) == 'i' && this.vowels.contains(word.charAt(word.length()-4)))
+            {
+                syllables++;
             }
             this.syllables = syllables;
         }

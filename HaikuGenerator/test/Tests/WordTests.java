@@ -67,4 +67,10 @@ public class WordTests {
         Word word = new Word("syllable");
         assertEquals(3, word.GetSyllables());
     }
+    
+    @Test
+    public void CorrectSyllablesNine(){
+        Word word = new Word("Quasimoto");
+        assertEquals(4, word.GetSyllables());
+    }
 }
