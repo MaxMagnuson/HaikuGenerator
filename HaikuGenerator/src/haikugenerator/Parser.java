@@ -23,7 +23,7 @@ public class Parser implements IParser {
     
     public Parser(){
         this.badPunc = Arrays.asList("\\.", "\\,", "\\?", "\\!", "\"", "\\:", "\\;");
-        this.badWords = Arrays.asList("the", "and", "for", "or", "is", "it", "in");
+        this.badWords = Arrays.asList("a", "the", "and", "for", "or", "is", "it", "in");
     }
     
     public MarkovChain ParseFile(String FileName){
@@ -54,7 +54,7 @@ public class Parser implements IParser {
                     token = token.replaceAll(badPunc.get(i), "");
                 }
                 Word tokenWord = new Word(token);
-                if(!badWords.contains(tokenWord.GetWord()) && useBadList){ // If this is a bad word ignore it.
+                if(!badWords.contains(tokenWord.GetWord()) || !useBadList){ // If this is a bad word ignore it.
                     if(prevWord != null)
                         chain.UpdateChain(prevWord, tokenWord);
                     prevWord = tokenWord;

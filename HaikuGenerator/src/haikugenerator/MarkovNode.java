@@ -107,7 +107,7 @@ public class MarkovNode {
         else
             System.out.println("Relations: ");
         for(int i = 0; i < relations.size(); i++){
-            System.out.println("\t"+relations.get(i).GetName()+"   "+relations.get(i).GetProbability());
+            System.out.println("\t"+relations.get(i).GetName().GetWord()+"   "+relations.get(i).GetProbability());
         }
         System.out.println();
     }

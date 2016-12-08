@@ -91,6 +91,7 @@ public class MarkovChain {
     }
     
     public void PrintChain(){
+        System.out.println("Chain size: " + chain.size());
         for(int i = 0; i < chain.size(); i++){
             chain.get(i).PrintNode();
         }
