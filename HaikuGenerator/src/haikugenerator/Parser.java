@@ -9,6 +9,8 @@ import haikugenerator.Interface.IParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -66,6 +68,50 @@ public class Parser implements IParser {
                 chain.UpdateChain(prevWord);
         }
         scan.close();
+        chain.Normalize();
+        return chain;
+    }
+    
+    public MarkovChain ParseFiles(Collection<String> files, boolean useBadList){
+        Iterator<String> it = files.iterator();
+        MarkovChain chain = new MarkovChain();
+        while(it.hasNext()){
+            String FileName = it.next();
+            File f = new File(FileName);
+            Scanner scan;
+            try{
+                scan = new Scanner(f);
+            } catch (FileNotFoundException e){
+                System.err.println("Could not find file: " + FileName);
+                e.printStackTrace();
+                continue;
+            }
+            while(scan.hasNextLine()){
+                // Do something
+                String line = scan.nextLine();
+                Scanner linescan = new Scanner(line);
+                Word prevWord = null;
+                while(linescan.hasNext()){
+                    // Do more things.
+                    String token = linescan.next();
+                    token = token.toLowerCase();
+                    for(int i = 0; i < badPunc.size(); i++){
+                        token = token.replaceAll(badPunc.get(i), "");
+                    }
+                    Word tokenWord = new Word(token);
+                    if(!badWords.contains(tokenWord.GetWord()) || !useBadList){ // If this is a bad word ignore it.
+                        if(prevWord != null)
+                            chain.UpdateChain(prevWord, tokenWord);
+                        prevWord = tokenWord;
+                    }
+                    //token = token.replaceAll("\\.", "");
+
+                }
+                if(prevWord != null)
+                    chain.UpdateChain(prevWord);
+            }
+            scan.close();
+        }
         chain.Normalize();
         return chain;
     }
