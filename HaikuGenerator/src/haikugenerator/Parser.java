@@ -24,7 +24,7 @@ public class Parser implements IParser {
     public List<String> badWords;
     
     public Parser(){
-        this.badPunc = Arrays.asList("\\.", "\\,", "\\?", "\\!", "\"", "\\:", "\\;");
+        this.badPunc = Arrays.asList("\\.", "\\,", "\\?", "\\!", "\"", "\\:", "\\;" , "\\(", "\\)" );
         this.badWords = Arrays.asList("a", "the", "and", "for", "or", "is", "it", "in");
     }
     
