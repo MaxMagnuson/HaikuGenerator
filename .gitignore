@@ -47,3 +47,7 @@ Temporary Items
 .apdisk
 /HaikuGenerator/nbproject/private/
 /HaikuGenerator/build/
+doc/ProjectWriteup.synctex.gz
+*.pdf
+doc/ProjectWriteup.log
+*.aux
