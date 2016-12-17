@@ -3,6 +3,7 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{cite}
+\usepackage{graphicx}
 
 %opening
 \title{Haiku Generations}
@@ -19,8 +20,30 @@ Something something I'm really bad at abstracts...
 \section{Introduction}
 Give a quick overview of what we did for our project.
 
-\section{Haiku introduction?}
-Explain what a Haiku is and and give an example of one? This and the next section can probably be combined. ~\cite{Higginson}
+\section{Background}
+
+\subsection{Haiku}
+Haikus are three line poems with the second line longer than the other two. In english haikus the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and second lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}.
+
+\begin{figure}[H]
+	\centering
+	From the skyscraper, \break
+	All the bustling streets converge \break
+	Towards a spring sea.
+	\caption{Haiku composed by Richard Wright \cite{Terebess}}
+	\label{fig:WrightHaiku}
+\end{figure}
+
+Due to the constraints of haikus, authors need to be careful in choosing each word. With so few syllables to work with, each word contributes significantly more to the overall meaning of the poem than other poetic forms. Therefore, haikus need to be terse and not use complete sentences. In figure \ref{fig:WrightHaiku} only the second line can be considered a complete sentence.
+
+\subsection{Markov Chains}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{MarkovChainExample}
+	\caption{Example Markov Chain}
+	\label{fig:Chain}
+\end{figure}
 
 \section{Haiku Constraints}
 Demonstrate how a haiku can be represented as a constraint problem. For example explain how each word can be represented as a node and a link of nodes with the right number of syllables is a line and three lines makes a haiku.
