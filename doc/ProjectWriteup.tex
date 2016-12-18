@@ -62,6 +62,23 @@ Explain the basic concept of a markov chain and illustrate how we used it as our
 \section{Search Algorithms}
 Go over each search algorithm we implemented in detail.
 \subsection{Naive Search}
+The first search method we attempted in our search space was trivial and consisted of picking a starting node in the chain and adding that word to the first available spot in any line of the haiku. The method then chose the next word from the chain as a child of the previous word and added it to any available space in the haiku that would not violate a syllable constraint. If the word could not be added it was ignored and used to generate the next word from it's children. If this approach ever reached a dead end in the chain it would pick a random node from the chain and continue from where it left off.
+
+\begin{algorithm}[H]
+	\caption{$Naive\_Search()$} \label{Naive}
+	\begin{algorithmic}[1]
+		\State Choose a random start node and set it to $current$
+		\While{Haiku is not full}
+			\State if possible, add $current$ to open line in haiku
+			\If{$current$ has children}
+				\State choose random $child$ from $current$
+				\State $current = child$
+			\Else
+				\State Choose a random node and set it to $current$
+			\EndIf
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
 
 \subsection{Short Random Walk}
 
