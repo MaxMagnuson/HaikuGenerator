@@ -4,6 +4,12 @@
 \usepackage[noend]{algpseudocode}
 \usepackage{cite}
 \usepackage{graphicx}
+\usepackage{xcolor}
+
+% Use commented out command when done
+%\newcommand{\comment}[1]{}
+\newcommand{\comment}[1]
+{\par {\bfseries \color{green} #1 \par}}
 
 %opening
 \title{Haiku Generations}
@@ -23,7 +29,7 @@ Give a quick overview of what we did for our project.
 \section{Background}
 
 \subsection{Haiku}
-Haikus are three line poems with the second line longer than the other two. In english haikus the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and second lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}.
+Haikus are three line poems with the second line longer than the other two. In english haikus the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and second lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}. \comment{"Need to explain syllables?"}
 
 \begin{figure}[H]
 	\centering
@@ -37,6 +43,8 @@ Haikus are three line poems with the second line longer than the other two. In e
 Due to the constraints of haikus, authors need to be careful in choosing each word. With so few syllables to work with, each word contributes significantly more to the overall meaning of the poem than other poetic forms. Therefore, haikus need to be terse and not use complete sentences. In figure \ref{fig:WrightHaiku} only the second line can be considered a complete sentence.
 
 \subsection{Markov Chains}
+
+Markov chains are a collection of states or variables with an associated collection of probabilities for each state that denotes the chance of going from one state to another. Markov chains can be represented as graphs. In figure \ref{fig:Chain} A, B, and C are nodes that represent the collection of states. The edges represent probabilities. For example, the likeliness of going from state A to state B is 0.25. Note that the edges of each node sum to 1. This is important to maintain because the nonzero edges connect to all possible states that can be achieved from a specific node. This means that in figure \ref{fig:Chain}, if the current state is B, then the possible states that follow are A and C. B cannot follow another B since the probability to itself is zero. \cite{Markov}
 
 \begin{figure}[H]
 	\centering

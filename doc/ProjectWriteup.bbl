@@ -1,9 +1,20 @@
 \begin{thebibliography}{1}
 
+\bibitem{Terebess}
+{Gabor Terebess}.
+\newblock Haiku: This other world.
+\newblock http://terebess.hu/english/haiku/wright, 1998.
+
 \bibitem{Higginson}
 William~J. Higginson.
 \newblock Guidelines for writing haiku in english.
 \newblock
-  \url{http://www.ucis.pitt.edu/ncta/pdfiles/2013CourseMaterials/GuidelinesforWritingHaikuinEnglish.pdf}.
+  http://www.ucis.pitt.edu/ncta/pdfiles/2013CourseMaterials/GuidelinesforWritingHaikuinEnglish.pdf.
+
+\bibitem{Markov}
+Eric~W. Weisstein.
+\newblock Markov chain.
+\newblock From MathWorld--A Wolfram Web Resource.
+  http://mathworld.wolfram.com/MarkovChain.html.
 
 \end{thebibliography}
