@@ -62,7 +62,7 @@ With a dictionary of words to choose from, the haiku generation problem is easil
 \subsection{Counting Syllables}
 There are multiple approaches we could have taken in determining the number of syllables in a word. We considered using a database loaded with an English dictionary. Dictionaries already have the words split up into syllables, so as long as the word exists in the dictionary then we would know for certain how many syllables it has. The issue with this approach is that it is not generalizable. Some dictionary will not include a lot of root words with various prefixes and suffixes. They also will not contain various slang words.
 
-We instead outlined a general set of rules to determine syllables. These rules accurately determine the correct number of syllables in the majority of instances. For the purposes of our rules, y is counted as a vowel.
+We instead outlined a general set of rules to determine syllables. These rules accurately determine the correct number of syllables in the majority of instances. The rules will not work in all cases. There is a large number of exceptions and corner cases making it difficult for the rules to be all encompassing, but they work for our purposes. In the context of these rules, y is considered as a vowel.
 \begin{enumerate}
 	\item If a vowel is preceded by a consonant, then increment the number of syllables.
 	\item If an o is preceded by a vowel that is not an o, then increment the number of syllables.
