@@ -54,7 +54,7 @@ Markov chains are a collection of states or variables with an associated collect
 \end{figure}
 
 \section{Haiku Constraints}
-Demonstrate how a haiku can be represented as a constraint problem. For example explain how each word can be represented as a node and a link of nodes with the right number of syllables is a line and three lines makes a haiku.
+With a dictionary of words to choose from, the haiku generation problem is easily represented as a constraint problem due to its rigid structure. Since each haiku is composed of three lines with a fixed syllable count the problem can be broken down by representing each line as its own constraint problem. The task then becomes to fill in each line with words that satisfy the total number of syllables required for each line.
 
 \section{The Search Space}
 Our search space was represented by a Markov chain where each variable is a word and relationships between words are determined by the likelihood that one word is succeeded or proceeded by another. However, in a Haiku we need to know more than just what the word is, we also need to know the sounds it makes, most notably the number of syllables it contains. Unfortunately, neither of us are experts in the English language and after some looking it appears that counting syllables is not an exact science and there are always exceptions to the rules. We implemented a method that accounts for basic English patterns and counts syllables of each word based on these, thus it's not perfect but adequate enough for our work.
