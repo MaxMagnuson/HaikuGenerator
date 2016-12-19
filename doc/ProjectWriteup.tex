@@ -57,13 +57,33 @@ Markov chains are a collection of states or variables with an associated collect
 Demonstrate how a haiku can be represented as a constraint problem. For example explain how each word can be represented as a node and a link of nodes with the right number of syllables is a line and three lines makes a haiku.
 
 \section{The Search Space}
-Explain the basic concept of a markov chain and illustrate how we used it as our search space. Secondly describe how we parsed files in order to create this chain from lists of sentences/words.
+Our search space was represented by a Markov chain where each variable is a word and relationships between words are determined by the likelihood that one word is succeeded or proceeded by another. However, in a Haiku we need to know more than just what the word is, we also need to know the sounds it makes, most notably the number of syllables it contains. Unfortunately, neither of us are experts in the English language and after some looking it appears that counting syllables is not an exact science and there are always exceptions to the rules. We implemented a method that accounts for basic English patterns and counts syllables of each word based on these, thus it's not perfect but adequate enough for our work.
+
+To generate these relationships and ultimately the Markov chain, we require that the user provide a text file filled with sentences and phrases that get read in and the relationships between words in that file become the basis for our Markov chain. We treat each line in the input file independently from the previous, meaning that the last word of the first line will not have a relationship with the first word in the second. The parser starts each line by reading the first word and counting its syllables and adding it to the chain the second word is then read in and a connection from the first word to the second word is created and a counter of how many times the relationship appears is incremented. This process then repeats until the entire file has been read and converted to the Markov chain. At this point, instead of probabilities the relations between words has a count of how many times this relationship appears, so for each node in the chain we need to convert these into probabilities by summing the total number of relationships and dividing each count by this sum.
 
 \section{Search Algorithms}
-Go over each search algorithm we implemented in detail.
-\subsection{Naive Search}
+With the search space created the final step in generating a haiku was determining a way to navigate the search space We considered the trivial approach of choosing words at random from the Markov chain and adding them to the haiku where ever they may fit but odds are this would result in a lackluster haiku. Instead we decided to take three different approaches to navigating the space. The first being a slight spin on the trivial approach in that we choose our next word for the haiku from the previous word if possible. The second was a depth first approach in a way that would increase fluidity between words and hopefully generate a haiku that made sense. Finally we implemented a 
 
-\subsection{Short Random Walk}
+\subsection{Naive Search}
+The first search method we attempted in our search space was trivial and consisted of picking a starting node in the chain and adding that word to the first available spot in any line of the haiku. The method then chose the next word from the chain as a child of the previous word and added it to any available space in the haiku that would not violate a syllable constraint. If the word could not be added it was ignored and used to generate the next word from it's children. If this approach ever reached a dead end in the chain it would pick a random node from the chain and continue from where it left off.\comment{"Give a one sentence intro about short random walks"}
+
+\begin{algorithm}[H]
+	\caption{$Naive\_Search()$} \label{Naive}
+	\begin{algorithmic}[1]
+		\State Choose a random start node and set it to $current$
+		\While{Haiku is not full}
+			\State if possible, add $current$ to open line in haiku
+			\If{$current$ has children}
+				\State choose random $child$ from $current$
+				\State $current = child$
+			\Else
+				\State Choose a random node and set it to $current$
+			\EndIf
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+While this method works for generating valid Haiku's it's rarely any better than throwing random words into a haiku and hoping there is some meaning to the madness. To increase the likelihood that a haiku generated has a connection between each word in the line it is best to force words that are contiguous in the haiku to be connected in the markov chain. We implemented depth first search and a short random walk method to accomplish this.
 
 \subsection{Depth First Search}
 One of the methods we used to navigate the search space and generate a Haiku was depth first search with restarts. To accomplish this we utilized a two-way linked list where each node contained a markov node and generated it's child randomly by weighting each of the markov nodes children's probability to generate each line individually. To initialize the search we chose a random markov node from our markov chain and had our root list node point to this node. The algorithm then chose a child node from that markov node and determined how many syllables the line of words would currently have and if we're still within the constraint it would repeat. If we have exactly the number of syllables we needed the code would return the line represented by this linked list starting from the root and ending at the child. If the child we chose would violate our constraints we retreated to the parent and would randomly choose a child that we had not yet visited from this node. If no children we're available we would retreat up another node. Finally if we are at the root node and there are no children available the code would restart and choose a new random starting position in the markov chain.
@@ -120,6 +140,8 @@ This approach was then extended to try and maintain fluidity between lines. Inst
 A final extension of this approach that is currently being implemented is to choose a starting node for the whole haiku and generate the entire haiku using just that node. Some haiku's generated by the previous approach would be valid in this sense but since any line could be restarted with random node not all haiku's would be fluid throughout. This approach would need to be able to regenerate the previous line if the children of the last node cannot generate a new line.
 
 % Create pseudo code for this approach...
+
+\subsection{Short Random Walk}
 
 \section{Results}
 Give some examples of the haiku's we were able to identify and acknowledge some of the highlights and short comings of the work we did.
