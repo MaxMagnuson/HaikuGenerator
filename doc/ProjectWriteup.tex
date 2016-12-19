@@ -83,7 +83,7 @@ The first search method we attempted in our search space was trivial and consist
 	\end{algorithmic}
 \end{algorithm}
 
-While this method works for generating valid Haiku's it's rarely any better than throwing random words into a haiku and hoping there is some meaning to the madness. To increase the likelihood that a haiku generated has a connection between each word in the line it is best to force words that are contiguous in the haiku to be connected in the markov chain. We implemented depth first search and a short random walk method to accomplish this.
+While this method works for generating valid Haiku's it's rarely any better than throwing random words into a haiku and hoping there is some meaning to the madness. To increase the likelihood that a haiku generated has a connection between each word in the line it is best to force words that are contiguous in the haiku to be connected in the markov chain. We implemented depth first search and an iterative random walk method to accomplish this.
 
 \subsection{Depth First Search}
 One of the methods we used to navigate the search space and generate a Haiku was depth first search with restarts. To accomplish this we utilized a two-way linked list where each node contained a markov node and generated it's child randomly by weighting each of the markov nodes children's probability to generate each line individually. To initialize the search we chose a random markov node from our markov chain and had our root list node point to this node. The algorithm then chose a child node from that markov node and determined how many syllables the line of words would currently have and if we're still within the constraint it would repeat. If we have exactly the number of syllables we needed the code would return the line represented by this linked list starting from the root and ending at the child. If the child we chose would violate our constraints we retreated to the parent and would randomly choose a child that we had not yet visited from this node. If no children we're available we would retreat up another node. Finally if we are at the root node and there are no children available the code would restart and choose a new random starting position in the markov chain.
@@ -141,7 +141,54 @@ A final extension of this approach that is currently being implemented is to cho
 
 % Create pseudo code for this approach...
 
-\subsection{Short Random Walk}
+\subsection{Iterative Random Walk}
+
+Iterative random walk leverages the naive approach in an iterative fashion to improve the quality of the generated haikus. The algorithm iteratively generates five and seven syllable lines starting from the same node in the Markov chain while noting the number of nodes visited. If the algorithm chooses lines that used the fewest number of nodes, then the line should have the closest thematic meaning to the root node. This is due to the assumption that nodes with nonzero probabilities are related thematically.
+
+\begin{algorithm}[H]
+	\caption{$IterativeRandomWalk(n)$} \label{IterativeRandomWalk}
+	\begin{algorithmic}[1]
+		\State Choose random node to be $root$
+		\State $fiveLines$
+		\State $sevenLines$
+		\For 0 to $n$-1
+			\State $line$, $steps$ = $RandomWalk(root, 5)$
+			\State add $line$, $steps$ to $fiveLines$
+			\State $line$, $steps$ = $RandomWalk(root, 7)$
+			\State add $line$, $steps$ to $sevenLines$ 
+		\EndFor
+		\State sort $fiveLines$ by $steps$
+		\State sort $sevenLines$ by $steps$
+		\State $Haiku$
+		\State add first two lines of $fiveLines$ to $Haiku$
+		\State add first line of $sevenLines$ to $Haiku$
+		\State return $Haiku$
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+	\caption{$RandomWalk(root, j)$} \label{IterativeRandomWalk}
+	\begin{algorithmic}[1]
+		\State $steps$ = 0
+		\State $syllables$ = 0
+		\State $line$
+		\State $current$ = $root$
+		\While $syllables$ < $j$
+			\If{$current.Syllables$ + $syllables$ <= $j$}
+				$syllables$ = $syllables$ + $current.Syllables$
+				\State add $current.word$ to $line$
+			\EndIf
+			\State choose random $child$ from $current$
+			$current$ = $child$
+			$steps$ = $steps$ + 1
+		\EndWhile
+		\State return $line$, $steps$
+	\end{algorithmic}
+\end{algorithm}
+
+Iterative random walk first chooses a random node from the Markov chain to be the root node. During each iteration the algorithm performs a random walk through the Markov chain starting from the root node. At each step of the random walk, the word from the current node is added to a collection if adding that word does not exceed the maximum number of syllables. Once the maximum number of syllables is reached, the collection is then returned along with the number of nodes visited. Once all of the iterations have been completed, the algorithm chooses the two five syllable lines with the fewest nodes visited and the seven syllable line with the fewest nodes visited to construct a haiku. 
+
+\comment{Should I explain random walk?}
 
 \section{Results}
 Give some examples of the haiku's we were able to identify and acknowledge some of the highlights and short comings of the work we did.
