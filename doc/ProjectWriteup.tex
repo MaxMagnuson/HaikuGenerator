@@ -53,10 +53,14 @@ Markov chains are a collection of states or variables with an associated collect
 	\label{fig:Chain}
 \end{figure}
 
-\section{Haiku Constraints}
+\section{Haiku Constraint Problem}
 Demonstrate how a haiku can be represented as a constraint problem. For example explain how each word can be represented as a node and a link of nodes with the right number of syllables is a line and three lines makes a haiku.
+\comment{TODO: Finish section}
 
-\section{The Search Space}
+\subsection{Counting Syllables}
+\comment{TODO: Finish section, replaces part in next section about syllables}
+
+\subsection{The Search Space}
 Our search space was represented by a Markov chain where each variable is a word and relationships between words are determined by the likelihood that one word is succeeded or proceeded by another. However, in a Haiku we need to know more than just what the word is, we also need to know the sounds it makes, most notably the number of syllables it contains. Unfortunately, neither of us are experts in the English language and after some looking it appears that counting syllables is not an exact science and there are always exceptions to the rules. We implemented a method that accounts for basic English patterns and counts syllables of each word based on these, thus it's not perfect but adequate enough for our work.
 
 To generate these relationships and ultimately the Markov chain, we require that the user provide a text file filled with sentences and phrases that get read in and the relationships between words in that file become the basis for our Markov chain. We treat each line in the input file independently from the previous, meaning that the last word of the first line will not have a relationship with the first word in the second. The parser starts each line by reading the first word and counting its syllables and adding it to the chain the second word is then read in and a connection from the first word to the second word is created and a counter of how many times the relationship appears is incremented. This process then repeats until the entire file has been read and converted to the Markov chain. At this point, instead of probabilities the relations between words has a count of how many times this relationship appears, so for each node in the chain we need to convert these into probabilities by summing the total number of relationships and dividing each count by this sum. The end result of parsing the file is a Markov chain that contains a node for every word in the file and a relationship for ever sequence of words that appears in the file.
@@ -169,7 +173,7 @@ Iterative random walk leverages the naive approach in an iterative fashion to im
 \end{algorithm}
 
 \begin{algorithm}[H]
-	\caption{$RandomWalk(root, j)$} \label{IterativeRandomWalk}
+	\caption{$RandomWalk(root, j)$} \label{RandomWalk}
 	\begin{algorithmic}[1]
 		\State $steps$ = 0
 		\State $syllables$ = 0
@@ -195,11 +199,126 @@ Iterative random walk first chooses a random node from the Markov chain to be th
 \section{Results}
 Give some examples of the haiku's we were able to identify and acknowledge some of the highlights and short comings of the work we did.
 
+Round One: Aesop Lyrics
+
+\begin{figure}[H]
+	\centering
+	dry grays supplied raise \break
+	fiery colossus dead tombs \break
+	vibes blissful light
+	\caption{Naive approach from Aesop Rock lyrics}
+	\label{fig:NaiveAesop}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	thieves received \break
+	blue face through terrors of woe \break
+	brain tripped beta
+	\caption{DFS approach one from Aesop Rock lyrics}
+	\label{fig:DFSOneAesop}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	recording til fell \break
+	through mite infested grillage \break
+	awaited my game
+	\caption{DFS approach two from Aesop Rock lyrics}
+	\label{fig:DFSTwoAesop}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	clash to conflicting \break
+	clash to insanity dolls \break
+	clash to emerge
+	\caption{Iterative Random Walk from Aesop Rock lyrics}
+		\label{fig:IRWAesop}
+	\end{figure}
+
+%%Round Two: Shakespeare
+
+\begin{figure}[H]
+	\centering
+	leprosy i' faith \break
+	o'ertake torn owner's \break
+	tongue was sleeping
+	\caption{Naive from Shakespeare}
+	\label{fig:NaiveShakespeare}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	cites virtuous \break
+	admiring praise that i have \break
+	driven on his name
+	\caption{DFS approach one from Shakespeare}
+	\label{fig:DPSOneShakespeare}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	horror that i saw \break
+	her audit though my uncle \break
+	forest looks bleak air
+	\caption{DFS approach two from Shakespeare}
+	\label{fig:DFSTwoShakespeare}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	slipper'd pantaloon \break
+	penury these things without \break
+	slipper'd pantaloon
+	\caption{Iterative random walk from Shakespeare}
+	\label{fig:IRWShakespeare}
+\end{figure}
+
+%%Round Three: Aesop + Shakespeare
+
+\begin{figure}[H]
+	\centering
+	lendin' bended dream \break
+	be your praise confound thou \break
+	distinction know'st
+	\caption{Naive from Aesop Rock lyrics and Shakespeare}
+	\label{fig:NaiveAesopShakespeare}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	such contempt of truth \break
+	disobedience he has \break
+	demurely wake
+	\caption{DFS approach one from Aesop Rock lyrics and Shakespeare}
+	\label{fig:DFSOneAesopShakespeare}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	over-goes my son \break
+	was his mouth that i know more \break
+	bright than i do look
+	\caption{DFS approach two from Aesop Rock lyrics and Shakespeare}
+	\label{fig:DFSTwoAesopShakespeare}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	mood smell onions \break
+	mood smell onions i say \break
+	mood ring militant
+	\caption{Iterative random walk from Aesop Rock lyrics and Shakespeare}
+	\label{fig:IRWAesopShakespeare}
+\end{figure}
+
 \section{Conclusion}
 Conclude yo.
 
 \section{Related Work}
 List of related works?
+\comment{Don't think we need this section}
 
 \bibliography{mybib}
 \bibliographystyle{plain}
