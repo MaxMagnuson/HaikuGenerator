@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{Vocab}
+Matt Daniels.
+\newblock The largest vocabulary in hip hop.
+\newblock http://poly-graph.co/vocabulary.html.
+
 \bibitem{Terebess}
 {Gabor Terebess}.
 \newblock Haiku: This other world.
@@ -10,6 +15,23 @@ William~J. Higginson.
 \newblock Guidelines for writing haiku in english.
 \newblock
   http://www.ucis.pitt.edu/ncta/pdfiles/2013CourseMaterials/GuidelinesforWritingHaikuinEnglish.pdf.
+
+\bibitem{Gaiku}
+Yael Netzer, David Gabay, Yoav Goldberg, and Michael Elhadad.
+\newblock Gaiku: Generating haiku with word associations norms.
+\newblock In {\em Proceedings of the Workshop on Computational Approaches to
+  Linguistic Creativity}, CALC '09, pages 32--39, Stroudsburg, PA, USA, 2009.
+  Association for Computational Linguistics.
+
+\bibitem{syllables}
+Kevin Owens.
+\newblock Syllable rules.
+\newblock http://www.phonicsontheweb.com/syllables.php.
+
+\bibitem{grammars}
+Mattt Thompson.
+\newblock Mobius: Exploring a new modality for poetry generation.
+\newblock http://homes.cs.washington.edu/~nasmith/papers/thompson.thesis09.pdf.
 
 \bibitem{Markov}
 Eric~W. Weisstein.
