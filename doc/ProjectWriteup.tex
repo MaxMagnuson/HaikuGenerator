@@ -20,11 +20,13 @@
 \maketitle
 
 \begin{abstract}
-Something something I'm really bad at abstracts...
+Haikus are a form of poetry that follow the line structure of 5-7-5 syllables. With this pattern generating a haiku can be modeled as solving one or three different constraint problems. Utilizing a dictionary of words we were able to generate a Markov chain to store the words and the likelihood that a word is related to another. Using this Markov chain as a search space we can implement various search methods like depth first search to utilize the probabilities associated with relationships in the chain to generate a valid haiku that uses similar language to the sources that generate our dictionary.
 \end{abstract}
 
 \section{Introduction}
-Give a quick overview of what we did for our project.
+Haikus are a form of poetry that originated from Japan and are known for their iconic structure. {\color{red} Someone think of something to put here as an attention getter of sorts...}
+
+Given the unique structure of haikus we wanted to devise a way to create a haiku given a dictionary of words. We approached the problem by generating a Markov chain to represent the relationships between all the words in our dictionary and implementing a way to count the syllables of each word in the dictionary. To navigate the search space we utilized three separate techniques to generate a valid haiku, each with its own focus on the fluidity of the lines created.
 
 \section{Background}
 
