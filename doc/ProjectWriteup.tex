@@ -24,14 +24,15 @@ Haikus are a form of poetry that follow the line structure of 5-7-5 syllables. W
 \end{abstract}
 
 \section{Introduction}
-Haikus are a form of poetry that originated from Japan and are known for their iconic structure. {\color{red} Someone think of something to put here as an attention getter of sorts...}
+Haikus are a form of poetry originating from Japan. Haikus are notable for their iconic structure and powerful themes. Generating haikus presents quite the challenge for artificial intelligence. Producing a poem that satisfies a specific structure based on linguistic rules while maintaining coherent semantics is nontrivial. A poem requires both to be successful. A well structured poem without any clear meaning is useless. A closely themed poem without proper structure cannot be classified as a haiku.
 
-Given the unique structure of haikus we wanted to devise a way to create a haiku given a dictionary of words. We approached the problem by generating a Markov chain to represent the relationships between all the words in our dictionary and implementing a way to count the syllables of each word in the dictionary. To navigate the search space we utilized three separate techniques to generate a valid haiku, each with its own focus on the fluidity of the lines created.
+We decided to approach the problem by extracting themes from a given selection of text. We assumed that words which appear in close proximity are related thematically. Using these associations we constructed a relational dictionary in the form of a Markov chain. The dictionary was then used to construct poems which satisfy the structure of haikus. If our initial assumption is correct, we should generate haikus that are both syntactically and semantically correct.
+\comment{We don't really want to get into too much detail here. That is what the later sections are for.}
 
 \section{Background}
 
 \subsection{Haiku}
-Haikus are three line poems with the second line longer than the other two. In english haikus the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and second lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}. \comment{"Need to explain syllables?"}
+Haikus are three line poems with the second line longer than the other two. In english haikus, the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and third lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}.
 
 \begin{figure}[H]
 	\centering
@@ -46,7 +47,7 @@ Due to the constraints of haikus, authors need to be careful in choosing each wo
 
 \subsection{Markov Chains}
 
-Markov chains are a collection of states or variables with an associated collection of probabilities for each state that denotes the chance of going from one state to another. Markov chains can be represented as graphs. In figure \ref{fig:Chain} A, B, and C are nodes that represent the collection of states. The edges represent probabilities. For example, the likeliness of going from state A to state B is 0.25. Note that the edges of each node sum to 1. This is important to maintain because the nonzero edges connect to all possible states that can be achieved from a specific node. This means that in figure \ref{fig:Chain}, if the current state is B, then the possible states that follow are A and C. B cannot follow another B since the probability to itself is zero. \cite{Markov}
+Markov chains are a collection of states or variables with an associated collection of probabilities for each state that denotes the chance of going from one state to another\cite{Markov}. Markov chains can be represented as graphs. In figure \ref{fig:Chain} A, B, and C are nodes that each represent a state. The edges represent probabilities. For example, the likeliness of going from state A to state B is 0.25. Note that the edges of each node sum to 1. This is important to maintain since the edges represent all possible actions from that state. Also note that a zero value edge leads to a state that cannot occur after the current state. This means that in figure \ref{fig:Chain}, if the current state is B, then the possible states that may follow are A and C. B cannot follow another B since the probability to itself is zero. 
 
 \begin{figure}[H]
 	\centering
@@ -56,10 +57,7 @@ Markov chains are a collection of states or variables with an associated collect
 \end{figure}
 
 \section{Haiku Constraint Problem}
-Demonstrate how a haiku can be represented as a constraint problem. For example explain how each word can be represented as a node and a link of nodes with the right number of syllables is a line and three lines makes a haiku.
-\comment{TODO: Finish section}
-\section{Haiku Constraints}
-With a dictionary of words to choose from, the haiku generation problem is easily represented as a constraint problem due to its rigid structure. Since each haiku is composed of three lines with a fixed syllable count the problem can be broken down by representing each line as its own constraint problem. The task then becomes to fill in each line with words that satisfy the total number of syllables required for each line.
+With a dictionary of words to choose from, the haiku generation problem is easily represented as a constraint problem due to its rigid structure. Since each haiku is composed of three lines with a fixed syllable count, the problem can be broken down into three separate constraint problems. The task is then fill in each line with words that satisfy the total number of syllables required for each line.
 
 \subsection{Counting Syllables}
 There are multiple approaches we could have taken in determining the number of syllables in a word. We considered using a database loaded with an English dictionary. Dictionaries already have the words split up into syllables, so as long as the word exists in the dictionary then we would know for certain how many syllables it has. The issue with this approach is that it is not generalizable. Some dictionary will not include a lot of root words with various prefixes and suffixes. They also will not contain various slang words.
@@ -101,7 +99,7 @@ In table \ref{table:syllables} biology has four syllables using rules 1 and 2. M
 Our search space was represented by a Markov chain where each variable is a word and relationships between words are determined by the likelihood that one word is succeeded or proceeded by another. However, in a Haiku we need to know more than just what the word is, we also need to know the sounds it makes, most notably the number of syllables it contains. Unfortunately, neither of us are experts in the English language and after some looking it appears that counting syllables is not an exact science and there are always exceptions to the rules. We implemented a method that accounts for basic English patterns and counts syllables of each word based on these, thus it's not perfect but adequate enough for our work.\comment{remove some of this}
 
 To generate these relationships and ultimately the Markov chain, we require that the user provide a text file filled with sentences and phrases that get read in and the relationships between words in that file become the basis for our Markov chain. We treat each line in the input file independently from the previous, meaning that the last word of the first line will not have a relationship with the first word in the second. The parser starts each line by reading the first word and counting its syllables and adding it to the chain the second word is then read in and a connection from the first word to the second word is created and a counter of how many times the relationship appears is incremented. This process then repeats until the entire file has been read and converted to the Markov chain. At this point, instead of probabilities the relations between words has a count of how many times this relationship appears, so for each node in the chain we need to convert these into probabilities by summing the total number of relationships and dividing each count by this sum. The end result of parsing the file is a Markov chain that contains a node for every word in the file and a relationship for ever sequence of words that appears in the file.
-\comment{Should an example markov chain and input file be showcased here to demonstrate how this works and lead into the next paragraph?}
+
 Since space is at a premium in a haiku it may not be worth adding short and meaningless words such as prepositions. To accommodate for that a modifier flag has been built into the parser to ignore a list of user defined words. For example if a user wanted to ignore the word ``a'' the phrase ``eat a vegetable'' would omit ``a'' from the Markov chain and create a relationship instead between the words ``eat'' and ``vegetable.''
 
 \section{Search Algorithms}
