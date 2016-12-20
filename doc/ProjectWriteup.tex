@@ -32,7 +32,7 @@ We decided to approach the problem by extracting themes from a given selection o
 \section{Background}
 
 \subsection{Haiku}
-Haikus are three line poems with the second line longer than the other two. In english haikus, the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and third lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}.
+Haikus are three line poems with the second line longer than the other two. In English haikus, the lines are measured by the number of syllables. The most common configuration is 5-7-5 in which the first and third lines of the poem have five syllables, and the second line of the poem has seven syllables. Figure \ref{fig:WrightHaiku} uses this structure. Some haikus contain fewer than seventeen syllables, but rarely exceed that amount \cite{Higginson}.
 
 \begin{figure}[H]
 	\centering
@@ -124,10 +124,10 @@ The first search method we attempted in our search space was trivial and consist
 	\end{algorithmic}
 \end{algorithm}
 
-While this method works for generating valid Haiku's it's rarely any better than throwing random words into a haiku and hoping there is some meaning to the madness. To increase the likelihood that a haiku generated has a connection between each word in the line it is best to force words that are contiguous in the haiku to be connected in the markov chain. We implemented depth first search and an iterative random walk method to accomplish this.
+While this method works for generating valid Haiku's it's rarely any better than throwing random words into a haiku and hoping there is some meaning to the madness. To increase the likelihood that a haiku generated has a connection between each word in the line it is best to force words that are contiguous in the haiku to be connected in the Markov chain. We implemented depth first search and an iterative random walk method to accomplish this.
 
 \subsection{Depth First Search}
-One of the methods we used to navigate the search space and generate a Haiku was depth first search with restarts. To accomplish this we utilized a two-way linked list where each node contained a markov node and generated it's child randomly by weighting each of the markov nodes children's probability to generate each line individually. To initialize the search we chose a random markov node from our markov chain and had our root list node point to this node. The algorithm then chose a child node from that markov node and determined how many syllables the line of words would currently have and if we're still within the constraint it would repeat. If we have exactly the number of syllables we needed the code would return the line represented by this linked list starting from the root and ending at the child. If the child we chose would violate our constraints we retreated to the parent and would randomly choose a child that we had not yet visited from this node. If no children we're available we would retreat up another node. Finally if we are at the root node and there are no children available the code would restart and choose a new random starting position in the markov chain.
+One of the methods we used to navigate the search space and generate a Haiku was depth first search (DFS) with restarts. To accomplish this we utilized a two-way linked list where each node contained a Markov node and generated it's child randomly by weighting each of the Markov nodes children's probability to generate each line individually. To initialize the search we chose a random Markov node from our Markov chain and had our root list node point to this node. The algorithm then chose a child node from that Markov node and determined how many syllables the line of words would currently have and if we're still within the constraint it would repeat. If we have exactly the number of syllables we needed the code would return the line represented by this linked list starting from the root and ending at the child. If the child we chose would violate our constraints we retreated to the parent and would randomly choose a child that we had not yet visited from this node. If no children we're available we would retreat up another node. Finally if we are at the root node and there are no children available the code would restart and choose a new random starting position in the Markov chain.
 
 \begin{algorithm}[H]
 	\caption{$Depth\_First\_Search(n)$} \label{DFSB}
@@ -227,12 +227,10 @@ Iterative random walk leverages the naive approach in an iterative fashion to im
 
 Iterative random walk first chooses a random node from the Markov chain to be the root node. During each iteration the algorithm performs a random walk through the Markov chain starting from the root node. At each step of the random walk, the word from the current node is added to a collection if adding that word does not exceed the maximum number of syllables. Once the maximum number of syllables is reached, the collection is then returned along with the number of nodes visited. Once all of the iterations have been completed, the algorithm chooses the two five syllable lines with the fewest nodes visited and the seven syllable line with the fewest nodes visited to construct a haiku. 
 
-\comment{Should I explain random walk? May as well. No harm in being overdescriptive.}
-
 \section{Results}
 To test our haiku generation approaches, we selected two different sets of training data. For the first set we chose the lyrics of the hip hop artist Aesop Rock. Matt Daniels analyzed the lyrics of various hip hop artists for their verbosity, and Aesop Rock was by far the most verbose\cite{Vocab}. We thought that his lyrics would provide enough variety and enough words to create a reasonably sized Markov chain. The other data set we chose was a selection of Shakespeare's works. Shakespeare was known for his vocabulary and has a large enough body of work to choose from.
 
-To generate haikus we ran three trials. We ran the first trial using a selection from Aesop Rock. We ran the second trial using a selection from shakespeare, and for the third we used both. For each trial we generated fifty haikus using each of the four approaches: Naive, DFS, DFS maintaining fluidity, and iterative random walk, and we selected a haiku to represent each algorithm. The number of iterations chosen for random walk was ten.
+To generate haikus we ran three trials. We ran the first trial using a selection from Aesop Rock. We ran the second trial using a selection from Shakespeare, and for the third we used both. For each trial we generated fifty haikus using each of the four approaches: Naive, DFS, DFS maintaining fluidity, and iterative random walk, and we selected a haiku to represent each algorithm. The number of iterations chosen for random walk was ten.
 
 \begin{center}
 \textbf{Trial One: Aesop Rock Lyrics}
@@ -364,13 +362,13 @@ A final extension of the depth first search approach that is currently being imp
 		\State $LineMarker1$ = $Depth\_First\_Search(5)$
 		\State $root$ = $LineMarker1.getRoot()$
 		\State $LineMarker2$ = $Depth\_First\_Search(LineMarker1, 7)$
-		\If {$LineMarker2 == null$} line couldn't be generated with parent node...
+		\If {$LineMarker2 == null$} line could not be generated with parent node...
 			\State Modify previous line so it ends on a different node, $newNode$
 			\State $LineMarker1$ = $newNode$
 			\State $LineMarker2$ = $Depth\_First\_Search(LineMarker1,7)$
 		\EndIf
 		\State $LineMarker3$ = $Deptt\_First\_Sarch(LineMarker2,5)$
-		\If {$LineMarker3 == null$} line couldn't be generated with parent node...
+		\If {$LineMarker3 == null$} line could not be generated with parent node...
 			\State Modify previous line so it ends on a different node, $newNode$
 			\State $LineMarker2$ = $newNode$
 			\State $LineMarker3$ = $Depth\_First\_Search(LineMarker2,5)$
@@ -379,7 +377,7 @@ A final extension of the depth first search approach that is currently being imp
 	\end{algorithmic}
 \end{algorithm}
 
-Furthermore, our methods generate valid haikus but a lot of them are lacking thematically or linguistically. More work could be done to improve the markov chain and filter out words that don't have strong thematic relations with one another. Our user defined list of words to ignore in the file parser is a simple way we approached this problem. Another approach one could take towards this problem is to not allow lines to be valid if they end with words in a user defined list. For example: prohibit specific lines from ending with pronouns. Adding extra constraints to the problem could lead to better haikus being generated.
+Furthermore, our methods generate valid haikus but a lot of them are lacking thematically or linguistically. More work could be done to improve the Markov chain and filter out words that don't have strong thematic relations with one another. Our user defined list of words to ignore in the file parser is a simple way we approached this problem. Another approach one could take towards this problem is to not allow lines to be valid if they end with words in a user defined list. For example: prohibit specific lines from ending with pronouns. Adding extra constraints to the problem could lead to better haikus being generated.
 
 \section{Conclusion}
 Generating poetry is quite the challenge for artificial intelligence. But by narrowing the scope from all forms of poetry to haikus we are able to take advantage of the rigid structure and lack of necessary rhyme scheme to begin to model the problem as solving one or a few constraint problems. Given a dictionary of words tied together via a Markov chain we were able to apply various search algorithms to solve these problems. Our implementations of naive search, depth first search, and shortest random walk each provided a way to generate haikus with varying, albeit random, fluidity and thematic contents. Naive search generated few haikus that made sense, depth first search provided the most successful in terms of making sense and flowing well, and shortest random walks provided poems that often sounded nice due to a clear repetition of words. However each search has it's drawbacks and not a single method is able to generate perfect haikus each time. Improvements to how the chain is built and building a list of rules for the haiku to further constrain the problem will further aid in generating better haikus.
