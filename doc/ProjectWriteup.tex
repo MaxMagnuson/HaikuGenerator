@@ -234,9 +234,13 @@ Iterative random walk first chooses a random node from the Markov chain to be th
 \comment{Should I explain random walk? May as well. No harm in being overdescriptive.}
 
 \section{Results}
-Give some examples of the haiku's we were able to identify and acknowledge some of the highlights and short comings of the work we did.
+To test our haiku generation approaches, we selected two different sets of training data. For the first set we chose the lyrics of the hip hop artist Aesop Rock. Matt Daniels analyzed the lyrics of various hip hop artists for their verbosity, and Aesop Rock was by far the most verbose\cite{Vocab}. We thought that his lyrics would provide enough variety and enough words to create a reasonably sized Markov chain. The other data set we chose was a selection of Shakespeare's works. Shakespeare was known for his vocabulary and has a large enough body of work to choose from.
 
-Round One: Aesop Lyrics
+To generate haikus we ran three trials. We ran the first trial using a selection from Aesop Rock. We ran the second trial using a selection from shakespeare, and for the third we used both. For each trial we generated fifty haikus using each of the four approaches: Naive, DFS, DFS maintaining fluidity, and iterative random walk, and we selected a haiku to represent each algorithm. The number of iterations chosen for random walk was ten.
+
+\begin{center}
+\textbf{Trial One: Aesop Rock Lyrics}
+\end{center}
 
 \begin{figure}[H]
 	\centering
@@ -273,8 +277,9 @@ Round One: Aesop Lyrics
 	\caption{Iterative Random Walk from Aesop Rock lyrics}
 		\label{fig:IRWAesop}
 	\end{figure}
-
-%%Round Two: Shakespeare
+\begin{center}
+\textbf{Trial Two: Shakespeare}
+\end{center}
 
 \begin{figure}[H]
 	\centering
@@ -312,7 +317,9 @@ Round One: Aesop Lyrics
 	\label{fig:IRWShakespeare}
 \end{figure}
 
-%%Round Three: Aesop + Shakespeare
+\begin{center}
+	\textbf{Trial Three: Aesop Rock and Shakespeare}	
+\end{center}
 
 \begin{figure}[H]
 	\centering
@@ -349,6 +356,8 @@ Round One: Aesop Lyrics
 	\caption{Iterative random walk from Aesop Rock lyrics and Shakespeare}
 	\label{fig:IRWAesopShakespeare}
 \end{figure}
+
+The naive approach tended to produce haikus that made little sense. The DFS approaches were the most successful. We found quite a few in our collections that had similar thematic meaning to them. The iterative random walk tended to produce haikus with the same words repeated on multiple lines. Combining the texts of both Shakespeare and Aesop Rock had little success in combining themes. The dictionary of words used in each text were too different from each other, so the haikus ended up skewing towards Shakespeare or Aesop Rock depending on the initial node chosen.
 
 \section{Conclusion}
 Conclude yo.
