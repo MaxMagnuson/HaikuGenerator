@@ -96,7 +96,7 @@ We instead outlined a general set of rules to determine syllables. These rules a
 
 In table \ref{table:syllables} biology has four syllables using rules 1 and 2. Mile has two syllables using rules 1 and 3. Fame has one syllable use rule 1. Queueing has two syllables according to rules 1 and 4. \comment{Needs citation}
 \subsection{The Search Space}
-Our search space was represented by a Markov chain where each variable is a word and relationships between words are determined by the likelihood that one word is succeeded or proceeded by another. However, in a Haiku we need to know more than just what the word is, we also need to know the sounds it makes, most notably the number of syllables it contains. Unfortunately, neither of us are experts in the English language and after some looking it appears that counting syllables is not an exact science and there are always exceptions to the rules. We implemented a method that accounts for basic English patterns and counts syllables of each word based on these, thus it's not perfect but adequate enough for our work.\comment{remove some of this}
+Our search space was represented by a Markov chain where each variable is a node that contains the word it represents and the number of syllables it contains. The node is then linked to other nodes based on the relationships between the words represented in the nodes. These relationships are determined by the likelihood that one word is succeeded or proceeded by another based on the input file used to generate our dictionary.
 
 To generate these relationships and ultimately the Markov chain, we require that the user provide a text file filled with sentences and phrases that get read in and the relationships between words in that file become the basis for our Markov chain. We treat each line in the input file independently from the previous, meaning that the last word of the first line will not have a relationship with the first word in the second. The parser starts each line by reading the first word and counting its syllables and adding it to the chain the second word is then read in and a connection from the first word to the second word is created and a counter of how many times the relationship appears is incremented. This process then repeats until the entire file has been read and converted to the Markov chain. At this point, instead of probabilities the relations between words has a count of how many times this relationship appears, so for each node in the chain we need to convert these into probabilities by summing the total number of relationships and dividing each count by this sum. The end result of parsing the file is a Markov chain that contains a node for every word in the file and a relationship for ever sequence of words that appears in the file.
 
@@ -106,7 +106,7 @@ Since space is at a premium in a haiku it may not be worth adding short and mean
 With the search space created the final step in generating a haiku was determining a way to navigate the search space We considered the trivial approach of choosing words at random from the Markov chain and adding them to the haiku where ever they may fit but odds are this would result in a lackluster haiku. Instead we decided to take three different approaches to navigating the space. The first being a slight spin on the trivial approach in that we choose our next word for the haiku from the previous word if possible. The second was a depth first approach in a way that would increase fluidity between words and hopefully generate a haiku that made sense. Finally we implemented a 
 
 \subsection{Naive Search}
-The first search method we attempted in our search space was trivial and consisted of picking a starting node in the chain and adding that word to the first available spot in any line of the haiku. The method then chose the next word from the chain as a child of the previous word and added it to any available space in the haiku that would not violate a syllable constraint. If the word could not be added it was ignored and used to generate the next word from it's children. If this approach ever reached a dead end in the chain it would pick a random node from the chain and continue from where it left off.\comment{"Give a one sentence intro about short random walks"}
+The first search method we attempted in our search space was trivial and consisted of picking a starting node in the chain and adding that word to the first available spot in any line of the haiku. The method then chose the next word from the chain as a child of the previous word and added it to any available space in the haiku that would not violate a syllable constraint. If the word could not be added it was ignored and used to generate the next word from it's children. If this approach ever reached a dead end in the chain it would pick a random node from the chain and continue from where it left off.
 
 \begin{algorithm}[H]
 	\caption{$Naive\_Search()$} \label{Naive}
@@ -178,9 +178,7 @@ This approach was then extended to try and maintain fluidity between lines. Inst
 	\end{algorithmic}
 \end{algorithm}
 
-A final extension of this approach that is currently being implemented is to choose a starting node for the whole haiku and generate the entire haiku using just that node. Some haiku's generated by the previous approach would be valid in this sense but since any line could be restarted with random node not all haiku's would be fluid throughout. This approach would need to be able to regenerate the previous line if the children of the last node cannot generate a new line.
 
-% Create pseudo code for this approach...
 
 \subsection{Iterative Random Walk}
 
@@ -357,12 +355,34 @@ To generate haikus we ran three trials. We ran the first trial using a selection
 
 The naive approach tended to produce haikus that made little sense. The DFS approaches were the most successful. We found quite a few in our collections that had similar thematic meaning to them. The iterative random walk tended to produce haikus with the same words repeated on multiple lines. Combining the texts of both Shakespeare and Aesop Rock had little success in combining themes. The dictionary of words used in each text were too different from each other, so the haikus ended up skewing towards Shakespeare or Aesop Rock depending on the initial node chosen.
 
+\section{Future Work}
+A final extension of the depth first search approach that is currently being implemented is to choose a starting node for the whole haiku and generate the entire haiku using just that node. Some haiku's generated by the approach that attempts to maintain consistency between lines would be valid in this sense but since any line could be restarted with a random node not all haiku's would be fluid throughout. This approach would need to be able to regenerate the previous line if the children of the last node cannot generate a new line. A suggested approach can be seen in algorithm \ref{Alg:DFSWhole}.
+
+\begin{algorithm}[H]
+	\caption{$Depth\_First\_Search\_Whole\_Haiku()$} \label{Alg:DFSWhole}
+	\begin{algorithmic}[1]
+		\State $LineMarker1$ = $Depth\_First\_Search(5)$
+		\State $root$ = $LineMarker1.getRoot()$
+		\State $LineMarker2$ = $Depth\_First\_Search(LineMarker1, 7)$
+		\If {$LineMarker2 == null$} line couldn't be generated with parent node...
+			\State Modify previous line so it ends on a different node, $newNode$
+			\State $LineMarker1$ = $newNode$
+			\State $LineMarker2$ = $Depth\_First\_Search(LineMarker1,7)$
+		\EndIf
+		\State $LineMarker3$ = $Deptt\_First\_Sarch(LineMarker2,5)$
+		\If {$LineMarker3 == null$} line couldn't be generated with parent node...
+			\State Modify previous line so it ends on a different node, $newNode$
+			\State $LineMarker2$ = $newNode$
+			\State $LineMarker3$ = $Depth\_First\_Search(LineMarker2,5)$
+		\EndIf
+		\State Haiku starts with $root$ and each $LineMarker$ shows where that line ends.
+	\end{algorithmic}
+\end{algorithm}
+
+Furthermore, our methods generate valid haikus but a lot of them are lacking thematically or linguistically. More work could be done to improve the markov chain and filter out words that don't have strong thematic relations with one another. Our user defined list of words to ignore in the file parser is a simple way we approached this problem. Another approach one could take towards this problem is to not allow lines to be valid if they end with words in a user defined list. For example: prohibit specific lines from ending with pronouns. Adding extra constraints to the problem could lead to better haikus being generated.
+
 \section{Conclusion}
 Conclude yo.
-
-\section{Related Work}
-List of related works?
-\comment{Don't think we need this section}
 
 \bibliography{mybib}
 \bibliographystyle{plain}
